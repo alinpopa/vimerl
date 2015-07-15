@@ -31,7 +31,7 @@ rebar_opts(RebarFile) ->
     Dir = get_root(filename:dirname(RebarFile)),
     case file:consult(RebarFile) of
         {ok, Terms} ->
-            RebarLibDirs = proplists:get_value(lib_dirs, Terms, []),
+            RebarLibDirs = proplists:get_value(lib_dirs, Terms, []) ++ ["apps"],
             lists:foreach(
                 fun(LibDir) ->
                         code:add_pathsa(filelib:wildcard(LibDir ++ "/*/ebin"))
@@ -59,3 +59,4 @@ get_root(["test" | Tail], _Path) ->
     lists:reverse(Tail);
 get_root([_ | Tail], Path) ->
     get_root(Tail, Path).
+
